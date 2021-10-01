@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.2.0"
+  },
+  "scripts": {
+    "server": "nodemon main.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
