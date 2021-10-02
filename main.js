@@ -20,18 +20,23 @@ app.get('/rooms/:id', (req, res) => {
     res.json(obj)
 });
 app.post('/rooms', (req, res) => {
-    const {roomId, userName} = req.body
+    const {roomId, userName, password} = req.body
     if (!rooms.has(roomId)) {
         rooms.set(
             roomId,
             new Map([
+                ['password', password],
                 ['users', new Map()],
                 ['messages', []]
             ])
         )
+    } else {
+        const roomPass = rooms.get(roomId).get('password')
+        if (roomPass !== password) {
+            return res.status(400)
+        }
     }
     res.send([...rooms.keys()])
-
 })
 
 io.on('connection', (socket) => {
@@ -50,9 +55,9 @@ io.on('connection', (socket) => {
         })
     })
     socket.on('ROOM:NEW_MESSAGE', ({roomId, userName, text}) => {
-        const obj = {userName,text,date:Date.now()}
+        const obj = {userName, text, date: Date.now()}
         rooms.get(roomId).get('messages').push(obj)
-        socket.broadcast.to(roomId).emit('ROOM:NEW_MESSAGE', obj)
+        socket.broadcast.to(roomId).emit('ROOM:SET_NEW_MESSAGE', obj)
     })
 });
 
