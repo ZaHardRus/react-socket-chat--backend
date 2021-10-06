@@ -3,8 +3,13 @@ const app = express();
 const server = require('http').createServer(app);
 const {Server} = require("socket.io");
 const io = new Server(server);
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: true}));
+const cors = require('cors');
+app.use(express.urlencoded());
 const PORT = process.env.PORT || 9999
 
+app.use(cors())
 app.use(express.json())
 app.use(express.static("public"))
 app.use(express.urlencoded({extended: true}))
