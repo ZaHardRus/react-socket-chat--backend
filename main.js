@@ -3,7 +3,7 @@ const app = express();
 const server = require('http').createServer(app);
 const {Server} = require("socket.io");
 const io = new Server(server);
-const PORT = 9999
+const PORT = process.env.PORT || 9999
 
 app.use(express.json())
 app.use(express.static("public"))
