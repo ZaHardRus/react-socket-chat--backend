@@ -6,6 +6,7 @@ const io = new Server(server);
 const PORT = 9999
 
 app.use(express.json())
+app.use(express.static("public"))
 app.use(express.urlencoded({extended: true}))
 
 const rooms = new Map()
