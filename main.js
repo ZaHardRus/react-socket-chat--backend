@@ -33,7 +33,7 @@ app.post('/rooms', (req, res) => {
     } else {
         const roomPass = rooms.get(roomId).get('password')
         if (roomPass !== password) {
-            return res.status(400)
+            return res.status(400).json('Неверный пароль')
         }
     }
     res.send([...rooms.keys()])
